@@ -10,7 +10,7 @@
   $color,
   $hover-background: lighten($background, 7.5%),
   $hover-border: lighten($border, 10%),
-  $hover-color: $color,
+  $hover-color: $color
 ) {
   color: $color;
   background: $background;
@@ -18,18 +18,18 @@
   &:hover {
     color: $hover-color;
     background: $hover-background;
-    border-color: $hover-border;    
+    border-color: $hover-border;
   }
   &:focus,
   &.focus {
     color: $hover-color;
     background: $hover-background;
-    border-color: $hover-border;    
+    border-color: $hover-border;
   }
   &:disabled,
   &.disabled {
     color: $color;
     background: $background;
-    border-color: $border;    
+    border-color: $border;
   }
 }
