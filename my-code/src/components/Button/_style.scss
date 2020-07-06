@@ -1,3 +1,10 @@
+// 组件库样式组成方式：按钮为例
+// 相关属性值写在 variable 中；共有的，比如 btn-size, btn-type 提取 mixin
+// .btn 公用的
+// .btn-size 各个尺寸的
+// .btn-type 各个类型的
+// pointer-events: none; 会覆盖 cursor: not-allowed;
+
 .btn {
   position: relative;
   display: inline-block;
@@ -37,6 +44,7 @@
     $btn-border-radius-lg
   );
 }
+
 .btn-sm {
   @include button-size(
     $btn-padding-y-sm,
@@ -49,6 +57,7 @@
 .btn-primary {
   @include button-style($primary, $primary, $white);
 }
+
 .btn-danger {
   @include button-style($danger, $danger, $white);
 }

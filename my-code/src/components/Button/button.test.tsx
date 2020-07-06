@@ -2,14 +2,18 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Button, { ButtonProps } from "./button";
 
-const defaultProps: ButtonProps = {
+const defaultProps = {
   onClick: jest.fn(),
 };
-
 const testProps: ButtonProps = {
   btnType: "primary",
   size: "lg",
   className: "klass",
+};
+
+const linkProps: ButtonProps = {
+  btnType: "link",
+  href: "https://www.baidu.com",
 };
 
 const disabledProps: ButtonProps = {
@@ -22,7 +26,7 @@ describe("test Button component", () => {
     const wrapper = render(<Button {...defaultProps}>Nice</Button>);
     const element = wrapper.getByText("Nice") as HTMLButtonElement;
     expect(element).toBeInTheDocument();
-    expect(element.tagName).toEqual("BUTTON");
+    expect(element.tagName).toBe("BUTTON");
     expect(element).toHaveClass("btn btn-default");
     expect(element.disabled).toBeFalsy();
     fireEvent.click(element);
@@ -33,28 +37,21 @@ describe("test Button component", () => {
     const wrapper = render(<Button {...testProps}>Nice</Button>);
     const element = wrapper.getByText("Nice");
     expect(element).toBeInTheDocument();
-    expect(element).toHaveClass("btn-primary btn-lg klass");
+    expect(element).toHaveClass("btn-primary btn-lg klass btn");
   });
 
-  it("should render a link when btnType equals link and href is provided", () => {
-    const wrapper = render(
-      <Button btnType="link" href="http://dummyurl">
-        Link
-      </Button>
-    );
-    const element = wrapper.getByText("Link") as HTMLAnchorElement;
+  it("should render a link when btnTyoe equals link and href is provided", () => {
+    const wrapper = render(<Button {...linkProps}>Nice</Button>);
+    const element = wrapper.getByText("Nice");
     expect(element).toBeInTheDocument();
-    expect(element.tagName).toEqual("A");
-    expect(element.href).toContain("http://dummyurl");
-    expect(element.href).toEqual("http://dummyurl/");
+    expect(element.tagName).toBe("A");
     expect(element).toHaveClass("btn btn-link");
   });
 
-  it("should render disabled button when disabled set to true", () => {
+  it("should render the disabled button when disabled set to true", () => {
     const wrapper = render(<Button {...disabledProps}>Nice</Button>);
-    const element = wrapper.getByText("Nice") as HTMLButtonElement;
+    const element = wrapper.getByText("Nice");
     expect(element).toBeInTheDocument();
-    expect(element.disabled).toBeTruthy();
     fireEvent.click(element);
     expect(disabledProps.onClick).not.toHaveBeenCalled();
   });

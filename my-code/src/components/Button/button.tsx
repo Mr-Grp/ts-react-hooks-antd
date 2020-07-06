@@ -1,25 +1,21 @@
 import React from "react";
 import classNames from "classnames";
 
-export type ButtonSize = "lg" | "sm";
-export type ButtonType = "primary" | "default" | "danger" | "link";
-
-interface BaseButtonProps {
-  className?: string;
+interface BaseProps {
+  classNames?: string;
   disabled?: boolean;
-  size?: ButtonSize;
-  btnType?: ButtonType;
-  children: React.ReactNode;
+  btnType?: "primary" | "default" | "danger" | "link";
+  size?: "lg" | "sm";
+  children?: React.ReactNode;
   href?: string;
 }
 
-type NativeButtonProps = BaseButtonProps &
-  React.ButtonHTMLAttributes<HTMLElement>;
-type AnchorButtonProps = BaseButtonProps &
-  React.AnchorHTMLAttributes<HTMLElement>;
-export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
+type NativeButtonProps = BaseProps & React.ButtonHTMLAttributes<HTMLElement>;
+type AnchorButtonProps = BaseProps & React.AnchorHTMLAttributes<HTMLElement>;
 
-const Button: React.FC<ButtonProps> = (props) => {
+export type ButtonProps = NativeButtonProps & AnchorButtonProps;
+
+export const Button: React.FC<ButtonProps> = (props) => {
   const {
     btnType,
     className,
@@ -33,6 +29,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   const classes = classNames("btn", className, {
     [`btn-${btnType}`]: btnType,
     [`btn-${size}`]: size,
+    // 只有链接上需要加 disabled 的 class 样式，按钮通过 disabled 属性判断
     disabled: btnType === "link" && disabled,
   });
 
@@ -50,9 +47,10 @@ const Button: React.FC<ButtonProps> = (props) => {
     );
   }
 };
+
 Button.defaultProps = {
-  disabled: false,
-  btnType: "default",
+  btnType: "default", // 为了样式，由于 a 标签和 button 公用一个 btn 类，所以按钮的默认属性写在对应 btn-type 上
+  disabled: false, // button 中用到了它作为属性，需要有默认值
 };
 
 export default Button;
